@@ -44,19 +44,39 @@ function addItems() {
     }
 }
 
+// Single click handler for the entire list
+// Since events bubble up (https://javascript.info/bubbling-and-capturing), 
+// we can use one catch-all and check what exactly was clicked. 
+// This will automatically react to any dynamically added HTML
+function listClickHandler(event) {
+    // We can check what was clicked with Element.matches(), which accepts a CSS selector
 
-// Remove Button on Created Item - Removes li in app and in localStorage
-list.addEventListener('click', function (e) {
-    for (let i = 0; i < items.length; i++) {
-        if ((e.target.classList.contains('delete') && e.target.parentElement.previousElementSibling.textContent) === items[i].inputValue) {
-            console.log('ITEM REMOVED FROM LOCAL STORAGE')
-            e.target.parentElement.parentElement.remove();
-            items.splice([i], 1)
-            // Set Updated localStorage
-            localStorage.setItem('items', JSON.stringify(items));
+    // The delete button was clicked
+    if (event.target.matches('button.delete')) {
+        for (let i = 0; i < items.length; i++) {
+            if ((e.target.classList.contains('delete') && e.target.parentElement.previousElementSibling.textContent) === items[i].inputValue) {
+                console.log('ITEM REMOVED FROM LOCAL STORAGE')
+                e.target.parentElement.parentElement.remove();
+                items.splice([i], 1)
+                // Set Updated localStorage
+                localStorage.setItem('items', JSON.stringify(items));
+            }
         }
     }
-})
+
+    // The edit button was clicked
+    if (event.target.matches('button.edit')) {
+        if (e.target.classList.contains('edit')) {
+            e.target.parentElement.previousElementSibling.innerHTML = `<input type="text" class="edit-field"><button class="btn btn-primary btn-sm text-light edit-button rounded ml-2">Edit</button>`;
+        }
+    }
+
+    // The edit-button (better name is save) was clicked
+    if (event.target.matches('button.edit-button')) {
+        const editField = document.querySelector('.edit-field');
+        e.target.parentElement.innerHTML = `${editField.value}`
+    }
+}
 
 // Complete Function
 
@@ -83,6 +103,8 @@ list.addEventListener('click', function (e) {
 
 // (e.target.classList.contains('complete') && 
 
+
+// I want to move this into the big click handler, but I'm not entirely sure what it does
 function contains(e) {
     for (let i = 0; i < items.length; i++) {
         if (e.target.parentElement.previousElementSibling.textContent === items[i].inputValue) {
@@ -112,18 +134,6 @@ clearAll.addEventListener('click', function () {
 
 // Function AddItems() Ending
 
-list.addEventListener('click', function (e) {
-    if (e.target.classList.contains('edit')) {
-        e.target.parentElement.previousElementSibling.innerHTML = `<input type="text" class="edit-field"><button class="btn btn-primary btn-sm text-light edit-button rounded ml-2">Edit</button>`;
-    }
-})
-
-list.addEventListener('click', function (e) {
-    if (e.target.classList.contains('edit-button')) {
-        const editField = document.querySelector('.edit-field');
-        e.target.parentElement.innerHTML = `${editField.value}`
-    }
-})
 
 window.addEventListener('DOMContentLoaded', function () {
     for (let i = 0; i < items.length; i++) {
