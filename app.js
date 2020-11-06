@@ -7,7 +7,7 @@ const items = JSON.parse(localStorage.getItem('items')) || [];
 
 button.addEventListener('click', addItems)
 input.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' || e.keyCode === 13) {
+    if (e.key === 'Enter') {
         addItems();
     }
 })
