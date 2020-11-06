@@ -128,7 +128,7 @@ list.addEventListener('click', function (e) {
 window.addEventListener('DOMContentLoaded', function () {
     for (let i = 0; i < items.length; i++) {
         if (items[i].complete === false) {
-            let li = document.createElement('div');
+            let li = document.createElement('li');
             list.appendChild(li);
             li.innerHTML += `
     <div class="row mb-1 bg-primary rounded text-light"><div class="col-sm my-auto">${items[i].inputValue}</></div><div class="col-sm">
@@ -141,7 +141,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     </div></div>`
         } else {
-            let li = document.createElement('div');
+            let li = document.createElement('li');
             list.appendChild(li);
             li.innerHTML += `
     <div class="row mb-1 bg-secondary rounded text-muted"><div class="col-sm my-auto">${items[i].inputValue}</></div><div class="col-sm">
